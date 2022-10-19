@@ -168,7 +168,7 @@ fun! CleanExtraSpaces()
     call setreg('/', old_query)
 endfun
 
-autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
+" autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vimgrep
@@ -266,6 +266,7 @@ let g:netrw_winsize = -1 * floor(&columns * g:netrw_proportion) " Abs value = nu
 let g:netrw_keepdir = 0
 let g:netrw_browse_split = 4 " Split into previous window
 let g:netrw_localcpdircmd = 'cp -r' " Recursively copy dir
+let g:netrw_liststyle = 3
 augroup Netrw
     autocmd!
     autocmd FileType netrw call s:NetrwMapping()
@@ -290,16 +291,14 @@ function! s:NetrwMapping()
     nmap <buffer> <C-g> :Bclose<CR>:exec "e " . g:vim_starting_directory<CR>
 endfunction
 
-function s:CleanUselessBuffers()
+function s:ToggleLex()
+    " call s:CleanUselessBuffers()
+    " Clean useless buffers
     for buf in getbufinfo()
         if buf.name == "" && buf.changed == 0 && buf.loaded == 1
             :execute ':bdelete ' . buf.bufnr
         endif
     endfor
-endfunction
-
-function s:ToggleLex()
-    call s:CleanUselessBuffers()
 
     " let g:netrw_last_directory = getcwd()
 
