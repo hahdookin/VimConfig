@@ -141,6 +141,9 @@ nnoremap <silent><S-TAB> :bprev<CR>
 " Spell checking
 map <leader>ss :setlocal spell!<cr>
 
+" Close windows
+noremap <leader>cl :close<CR>
+
 " Window navigation
 map <C-j> <C-W>j
 map <C-k> <C-W>k
