@@ -4,6 +4,12 @@ vimrc=(
     '" Injected by https://github.com/hahdookin. Enjoy!'
     'source $HOME/.vim/init.vim'
     'source $HOME/.vim/plugins.vim'
+    'if has("vim9script")'
+    '    source $HOME/.vim/vim9.vim'
+    'endif'
+    'if has("nvim")'
+    '    lua require("$HOME/.vim/lua.lua")'
+    'endif'
 )
 
 for ((i = 0; i < ${#vimrc[@]}; i++)); do
