@@ -11,6 +11,8 @@ After running `setup.sh`, your `~` directory should look something like this:
 └─── .vim/
      ├─── init.vim                :: Actual vimrc commands
      ├─── plugins.vim             :: Plugin configs
+     ├─── vim9.vim                :: Vim9 commands (Vim9 only)
+     ├─── nvim.lua                :: Lua commands (NVim only)
      ├─── vim/pack/bundle/
      │             ├─── start/    :: Vim ONLY Plugins enabled automatically
      │             └─── opt/      :: Vim ONLY Plugins to enable manually with :packadd

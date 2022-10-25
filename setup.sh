@@ -5,20 +5,20 @@ vimrc=(
     'source $HOME/.vim/init.vim'
     'source $HOME/.vim/plugins.vim'
     'if has("vim9script")'
-    '    source $HOME/.vim/vim9.vim'
+    '\tsource $HOME/.vim/vim9.vim'
     'endif'
     'if has("nvim")'
-    '    lua require("$HOME/.vim/lua.lua")'
+    '\tlua require("$HOME/.vim/nvim.lua")'
     'endif'
 )
 
 for ((i = 0; i < ${#vimrc[@]}; i++)); do
-    echo ${vimrc[$i]} >> ~/.vimrc
+    echo -e ${vimrc[$i]} >> ~/.vimrc
 done
 exit 1
 
 # Create directories
-mkdir -p ~/.vim/temp_dirs/undodir
+mkdir -p ~/.vim/temp/undo
 mkdir -p ~/.vim/{common,vim,nvim}/pack/bundle/{opt,start}
 
 must_have_plugins=(

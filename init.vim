@@ -213,7 +213,7 @@ nnoremap <leader>bd :Bclose<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>e :e! ~/.vim/init.vim<CR>
 map <leader>m :source %<CR>
-autocmd! BufWritePost ~/.vim/init.vim source ~/.vim/init.vim
+autocmd! BufWritePost ~/.vim/init.vim,~/.vim/plugins.vim,~/.vim/nvim.lua,~/.vim/vim9.vim source ~/.vimrc
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Persistent udno
