@@ -5,6 +5,16 @@
 " EMAIL:   ChrisPaneCS@gmail.com
 " WEBSITE: https://chrispane.dev
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" General
+let g:colorscheme = "spaceduck"
+try
+    exec "colorscheme " . g:colorscheme
+catch /^Vim\%((\a\+)\)\=:E185/
+    colorscheme default
+    let g:colorscheme = "default"
+endtry
+
 """"""""""""""""""""""""""""""
 " => Buftabline
 """"""""""""""""""""""""""""""

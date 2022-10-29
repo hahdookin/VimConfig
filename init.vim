@@ -16,7 +16,7 @@ endif
 
 let mapleader = ","
 
-let g:colorscheme = "spaceduck"
+let g:colorscheme = "default"
 
 filetype plugin indent on
 syntax enable
@@ -120,7 +120,6 @@ let &t_EI = "\e[2 q"
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-"colorscheme spaceduck
 exec "colorscheme " . g:colorscheme
 " set bg=light
 set bg=dark
@@ -181,7 +180,7 @@ fun! BuffersList()
             \ ->filter('buflisted(v:val)')
             \ ->map('bufname(v:val)')
 endfun
-noremap <leader>v :vim /
+noremap <leader>v :vim 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
