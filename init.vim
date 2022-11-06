@@ -44,7 +44,7 @@ source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 set hidden
-set switchbuf=useopen
+set switchbuf=
 set stal=2
 
 " set splitbelow
