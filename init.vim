@@ -215,7 +215,7 @@ map <leader>m :source %<CR>
 autocmd! BufWritePost ~/.vim/init.vim,~/.vim/plugins.vim,~/.vim/nvim.lua,~/.vim/vim9.vim source ~/.vimrc
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Persistent udno
+" => Persistent undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
     set undodir=~/.vim/temp/undo
@@ -226,6 +226,10 @@ endtry
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Quickfix stuff
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+map <silent>]Q :clast<CR>
+map <silent>[Q :cfirst<CR>
+map <silent>]q :cnext<CR>
+map <silent>[q :cprev<CR>
 map <silent><leader>cc :call ToggleQuickFix()<CR>
 map <silent><leader>ll :call ToggleLocList()<CR>
 
