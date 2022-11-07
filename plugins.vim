@@ -106,22 +106,22 @@ inoremap <silent><expr> <c-space> coc#refresh()
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+fun! DoCocActionOrNormal(map, feature, action)
+    if CocHasProvider(a:feature)
+        call CocActionAsync(a:action)
+    else
+        call feedkeys(a:map, 'n')
+    endif
+endfun
+
 " GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gd :call DoCocActionOrNormal("gd", "definition", "jumpDefinition")<CR>
+nmap <silent> gy :call DoCocActionOrNormal("gy", "typeDefinition", "jumpTypeDefinition")<CR>
+nmap <silent> gi :call DoCocActionOrNormal("gi", "implementation", "jumpImplementation")<CR>
+nmap <silent> gr :call DoCocActionOrNormal("gr", "reference", "jumpReferences")<CR>
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call ShowDocumentation()<CR>
-
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
-endfunction
+nnoremap <silent> K :call DoCocActionOrNormal("K", "hover", "doHover")<CR>
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
