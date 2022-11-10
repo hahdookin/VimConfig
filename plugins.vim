@@ -283,6 +283,15 @@ endfun
 
 let g:vimwiki_conceal_pre = 1
 
+fun! InsertStandup()
+    let text = ["== Work ==",
+                \ "=== Done ===", "",
+                \ "=== Will Do ===", "",
+                \ "=== Blockers ===", ""]
+    call append(line('.') - 1, text)
+endfun
+command! InsertStandup :call InsertStandup()
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => minifuzzy.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
