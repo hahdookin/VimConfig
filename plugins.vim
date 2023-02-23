@@ -285,8 +285,8 @@ let g:vimwiki_conceal_pre = 1
 
 fun! InsertStandup()
     let text = ["== Work ==",
-                \ "=== Done ===", "",
-                \ "=== Will Do ===", "",
+                \ "=== Done Yesterday ===", "",
+                \ "=== Will Do/Have Done Today ===", "",
                 \ "=== Blockers ===", ""]
     call append(line('.') - 1, text)
 endfun
@@ -314,3 +314,26 @@ let g:gruvbox_bold = 0
 let g:gruvbox_italic = 0
 let g:gruvbox_contrast_dark = "medium"
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Godot
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:godot_executable =  "C:/Users/19082/Desktop/godot4.0beta8/Godot_v4.0-beta8_win64.exe"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => fugitive
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+command! GitLg1 :Git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+command! GitLg2 :Git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+
+" Toggle :Git window
+fun! ToggleGitWindow()
+    for win in getwininfo()
+        if getbufvar(win.bufnr, '&filetype') == "fugitive"
+            call win_execute(win.winid, "close")
+            return
+        endif
+    endfor
+    Git
+endfun
+
+nnoremap <silent><leader>gg :call ToggleGitWindow()<cr>
