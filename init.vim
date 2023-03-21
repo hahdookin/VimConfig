@@ -16,7 +16,7 @@ endif
 
 let mapleader = ","
 
-let g:colorscheme = "default"
+let g:colorscheme = "slate"
 
 filetype plugin indent on
 syntax enable
@@ -38,16 +38,23 @@ let $LANG='en'
 set langmenu=en
 set encoding=utf8
 set ffs=unix,dos,mac
-set clipboard+=unnamedplus
+if has("mac")
+    set clipboard+=unnamed
+else
+    set clipboard+=unnamedplus
+endif
 
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
 
 set hidden
-set switchbuf=
 set stal=2
 
-" set splitbelow
+" NOTE: Listen, I really, really want to be the type of person who
+" uses `splitbelow`, but I just can't get myself to do it. At least
+" `splitright` feels natural, `splitbelow` just feels too foreign.
+" That being said, I won't judge you if you choose to `splitbelow`.
+"set splitbelow
 set splitright
 
 set wildmenu
@@ -177,10 +184,11 @@ endfun
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 fun! BuffersList()
     return range(1, bufnr('$'))
-            \ ->filter('buflisted(v:val)')
-            \ ->map('bufname(v:val)')
+            \ ->filter({_, val -> buflisted(val)})
+            \ ->map({_, val -> bufname(val)})
 endfun
-noremap <leader>v :vim 
+noremap <leader>vv :vim 
+noremap <leader>vj :vim //j <Left><Left><Left>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
@@ -262,7 +270,7 @@ autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:vim_starting_directory = getcwd()
 let g:netrw_last_directory = g:vim_starting_directory
-let g:netrw_proportion = 0.18    " Amount of screen occupied by netrw :Lexplore
+let g:netrw_proportion = 0.18    " Percentage of screen occupied by netrw :Lexplore
 
 " netrw settings
 let g:netrw_banner = 0 " Hide banner

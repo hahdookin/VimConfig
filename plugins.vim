@@ -7,7 +7,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " General
-let g:colorscheme = "spaceduck"
+let g:colorscheme = "codedark"
 try
     exec "colorscheme " . g:colorscheme
 catch /^Vim\%((\a\+)\)\=:E185/
@@ -53,29 +53,6 @@ let g:lightline = {
       \ 'separator': { 'left': ' ', 'right': ' ' },
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
       \ }
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => FZF
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" FZF buffers
-nnoremap <leader>ff :Buffers<CR>
-nnoremap <leader>fl :Lines<CR>
-
-" FZF Files depending on whether or not in a git repo
-function FuzzyFiles()
-    GFiles
-    " Error 128 occurs when not in Git repo path
-    if v:shell_error == 128
-        Files
-    endif
-endfunction
-nnoremap <leader>fg :call FuzzyFiles()<CR>
-
-" FZF in cur (d)ir
-nnoremap <leader>fd :FZF<CR>
-" FZF (i)n
-nnoremap <leader>fi :FZF
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -317,7 +294,7 @@ let g:gruvbox_contrast_dark = "medium"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Godot
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:godot_executable =  "C:/Users/19082/Desktop/godot4.0beta8/Godot_v4.0-beta8_win64.exe"
+let g:godot_executable =  "C:/Users/19082/Desktop/godot4/Godot_v4.0-stable_win64_console.exe"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => fugitive
