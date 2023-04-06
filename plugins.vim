@@ -7,7 +7,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " General
-let g:colorscheme = "codedark"
+let g:colorscheme = "gruvbox"
 try
     exec "colorscheme " . g:colorscheme
 catch /^Vim\%((\a\+)\)\=:E185/
