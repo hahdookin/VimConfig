@@ -137,6 +137,7 @@ set bg=dark
 map 0 ^
 map ' `
 nnoremap Y y$
+nnoremap gp `[v`]
 
 nnoremap <silent><leader>no :nohlsearch<CR>
 
