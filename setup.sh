@@ -4,12 +4,9 @@ vimrc=(
     '" Injected by https://github.com/hahdookin. Enjoy!'
     'source $HOME/.vim/init.vim'
     'source $HOME/.vim/plugins.vim'
-    'if has("vim9script")'
-    '\tsource $HOME/.vim/vim9.vim'
-    'endif'
-    'if has("nvim")'
-    '\tlua require("$HOME/.vim/nvim.lua")'
-    'endif'
+    'eval has("vim9script") && execute("source $HOME/.vim/vim9.vim")'
+    'eval has("nvim") && execute("lua require(\"$HOME/.vim/nvim.lua\")")'
+    'eval filereadable(expand("$HOME/.vim/overrides.vim")) && execute("source $HOME/.vim/overrides.vim")'
 )
 
 for ((i = 0; i < ${#vimrc[@]}; i++)); do

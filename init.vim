@@ -244,7 +244,7 @@ map <silent><leader>ll :call ToggleLocList()<CR>
 
 function! ToggleQuickFix()
     if empty(filter(getwininfo(), 'v:val.quickfix'))
-        copen
+        botright copen
     else
         cclose
         lclose
@@ -253,7 +253,7 @@ endfunction
 function! ToggleLocList()
     try
         if empty(filter(getwininfo(), 'v:val.quickfix'))
-            lopen
+            botright lopen
         else
             cclose
             lclose

@@ -4,6 +4,7 @@ Simple all-in-one setup for both Vim and Nvim
 
 ## :card_file_box: Directory Explanation
 After running `setup.sh`, your `~` directory should look something like this:
+
 ```
 ~/
 ├─── .config/nvim/init.vim        :: Main entry for neovim, source .vim/init.vim and updates rtp and packpath
@@ -26,3 +27,6 @@ After running `setup.sh`, your `~` directory should look something like this:
           └─── undo/              :: Directory for undo files
 
 ```
+
+## Overrides
+If you want to have any overrides applied, create a `overrides.vim` file in the `~/.vim/` directory. These commands will be ran last.

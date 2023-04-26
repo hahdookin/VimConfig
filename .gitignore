@@ -4,3 +4,4 @@ vim/
 nvim/
 temp/
 spell/
+overrides.vim
