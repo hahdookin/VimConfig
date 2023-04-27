@@ -1,12 +1,17 @@
 #!/usr/bin/bash
 
+# Delete previously installed vimrc
+sed '/" hahdookin\/VimConfig START/,/" hahdookin\/VimConfig END/d' -i ~/.vimrc
+
 vimrc=(
+    '" hahdookin/VimConfig START'
     '" Injected by https://github.com/hahdookin. Enjoy!'
     'source $HOME/.vim/init.vim'
     'source $HOME/.vim/plugins.vim'
     'eval has("vim9script") && execute("source $HOME/.vim/vim9.vim")'
     'eval has("nvim") && execute("lua require(\"$HOME/.vim/nvim.lua\")")'
     'eval filereadable(expand("$HOME/.vim/overrides.vim")) && execute("source $HOME/.vim/overrides.vim")'
+    '" hahdookin/VimConfig END'
 )
 
 for ((i = 0; i < ${#vimrc[@]}; i++)); do
@@ -33,7 +38,12 @@ common=(
 
 
 for plugin in ${common[@]}; do
-    git clone https://github.com/$plugin ~/.vim/common/pack/bundle/start/${plugin#*/}
+    if [ -d $HOME/.vim/common/pack/bundle/start/${plugin#*/} ]; then
+        # (cd $HOME/.vim/common/pack/bundle/start/$plugin && git pull)
+        git --git-dir=$HOME/.vim/common/pack/bundle/start/${plugin#*/}/.git  --work-tree=$HOME/.vim/common/pack/bundle/start/${plugin#*/}/ pull
+    else
+        git clone https://github.com/$plugin ~/.vim/common/pack/bundle/start/${plugin#*/}
+    fi
 done
 exit 1
 
