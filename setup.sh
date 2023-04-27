@@ -12,32 +12,30 @@ vimrc=(
 for ((i = 0; i < ${#vimrc[@]}; i++)); do
     echo -e ${vimrc[$i]} >> ~/.vimrc
 done
-exit 1
 
 # Create directories
 mkdir -p ~/.vim/temp/undo
 mkdir -p ~/.vim/{common,vim,nvim}/pack/bundle/{opt,start}
 
-must_have_plugins=(
+common=(
     jiangmiao/auto-pairs
     neoclide/coc.nvim
     itchyny/lightline.vim
+    hahdookin/minifuzzy.vim
+    hahdookin/miniterm.vim
     pineapplegiant/spaceduck
     ap/vim-buftabline
     tpope/vim-commentary
+    tpope/vim-fugitive
     frazrepo/vim-rainbow
     vimwiki/vimwiki
 )
 
-optional_plugins=(
-    morhetz/gruvbox
-    tomasiser/vim-code-dark
-)
 
-for plugin in ${must_have_plugins[@]}; do
-    # git clone https://github.com/$plugin ~/.vim/common/pack/bundle/start/
-    echo https://github.com/$plugin
+for plugin in ${common[@]}; do
+    git clone https://github.com/$plugin ~/.vim/common/pack/bundle/start/${plugin#*/}
 done
+exit 1
 
 # Necessary
 auto-pairs      # Insert matching pairs
@@ -49,20 +47,3 @@ startscreen.vim # Startscreen
 vim-buftabline  # Show bufs in tabline
 vim-commentary  # Comment stuff
 vim-fugitive    # Git integration
-
-# Colorschemes
-gruvbox
-spaceduck
-vim-code-dark-master
-papercolor-theme
-
-# Unnecessary
-tamagotchi.vim
-rainbow
-vim-scriptease
-ShaderHighlight
-vimwiki
-
-# Candidates for deletion
-testvim9
-calendar.vim

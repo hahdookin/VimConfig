@@ -58,7 +58,7 @@ set stal=2
 set splitright
 
 set wildmenu
-set wildignore=*.o,*~,*.pyc
+set wildignore=*.o,*~,*.pyc,*/node_modules/*,*/.git/*
 set wildignorecase
 if has("win16") || has("win32")
     set wildignore+=.git\*,.hg\*,.svn\*
