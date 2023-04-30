@@ -1,5 +1,10 @@
 #!/usr/bin/bash
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
 # Delete previously installed vimrc
 sed '/" hahdookin\/VimConfig START/,/" hahdookin\/VimConfig END/d' -i ~/.vimrc
 
@@ -26,6 +31,7 @@ common=(
     jiangmiao/auto-pairs
     neoclide/coc.nvim
     itchyny/lightline.vim
+    airblade/vim-gitgutter
     hahdookin/minifuzzy.vim
     hahdookin/miniterm.vim
     pineapplegiant/spaceduck
@@ -39,8 +45,9 @@ common=(
 
 for plugin in ${common[@]}; do
     if [ -d $HOME/.vim/common/pack/bundle/start/${plugin#*/} ]; then
-        # (cd $HOME/.vim/common/pack/bundle/start/$plugin && git pull)
-        git --git-dir=$HOME/.vim/common/pack/bundle/start/${plugin#*/}/.git  --work-tree=$HOME/.vim/common/pack/bundle/start/${plugin#*/}/ pull
+        git \
+            --git-dir=$HOME/.vim/common/pack/bundle/start/${plugin#*/}/.git \
+            --work-tree=$HOME/.vim/common/pack/bundle/start/${plugin#*/}/ pull
     else
         git clone https://github.com/$plugin ~/.vim/common/pack/bundle/start/${plugin#*/}
     fi
