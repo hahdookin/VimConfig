@@ -54,6 +54,9 @@ let g:lightline = {
       \ 'subseparator': { 'left': ' ', 'right': ' ' }
       \ }
 
+let g:lightline.inactive = {}
+let g:lightline.inactive.left = [ ['filename', 'modified'] ]
+let g:lightline.inactive.right = [ ['lineinfo'], ['percent'] ]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Rainbow Parenthesis
