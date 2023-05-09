@@ -19,6 +19,7 @@ endtry
 " => Buftabline
 """"""""""""""""""""""""""""""
 let g:buftabline_indicators = 1 " Show 'modified' in buftab
+hi! link BufTabLineActive BufTabLineHidden
 
 """"""""""""""""""""""""""""""
 " => Shell section
