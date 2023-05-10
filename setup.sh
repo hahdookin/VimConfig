@@ -6,7 +6,12 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Delete previously installed vimrc
-sed '/" hahdookin\/VimConfig START/,/" hahdookin\/VimConfig END/d' -i ~/.vimrc
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # osx type
+    sed -i '' '/" hahdookin\/VimConfig START/,/" hahdookin\/VimConfig END/d' ~/.vimrc
+else
+    sed -i '/" hahdookin\/VimConfig START/,/" hahdookin\/VimConfig END/d' ~/.vimrc
+fi
 
 vimrc=(
     '" hahdookin/VimConfig START'
