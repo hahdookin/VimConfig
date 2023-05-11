@@ -70,7 +70,13 @@ set wildmode=full
 set wildoptions=pum
 
 set number relativenumber
-set cursorline
+augroup CursorLine
+    au!
+    au VimEnter * setlocal cursorline
+    au WinEnter * setlocal cursorline
+    au BufWinEnter * setlocal cursorline
+    au WinLeave * setlocal nocursorline
+augroup END
 set equalalways
 set ruler
 
