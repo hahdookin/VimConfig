@@ -6,11 +6,12 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Delete previously installed vimrc
+sed_cmd='/" hahdookin\/VimConfig START/,/" hahdookin\/VimConfig END/d'
 if [[ "$OSTYPE" == "darwin"* ]]; then
     # osx type
-    sed -i '' '/" hahdookin\/VimConfig START/,/" hahdookin\/VimConfig END/d' ~/.vimrc
+    sed -i '' "$sed_cmd" ~/.vimrc
 else
-    sed -i '/" hahdookin\/VimConfig START/,/" hahdookin\/VimConfig END/d' ~/.vimrc
+    sed -i "$sed_cmd" ~/.vimrc
 fi
 
 vimrc=(
@@ -32,40 +33,17 @@ done
 mkdir -p ~/.vim/temp/undo
 mkdir -p ~/.vim/{common,vim,nvim}/pack/bundle/{opt,start}
 
-common=(
-    jiangmiao/auto-pairs
-    neoclide/coc.nvim
-    itchyny/lightline.vim
-    airblade/vim-gitgutter
-    hahdookin/minifuzzy.vim
-    hahdookin/miniterm.vim
-    pineapplegiant/spaceduck
-    ap/vim-buftabline
-    tpope/vim-commentary
-    tpope/vim-fugitive
-    frazrepo/vim-rainbow
-    vimwiki/vimwiki
-)
-
-
-for plugin in ${common[@]}; do
+for plugin in $(cat plugins_list.txt); do
     if [ -d $HOME/.vim/common/pack/bundle/start/${plugin#*/} ]; then
-        git \
+        # Plugins already installed, try to pull
+        output=$(git \
             --git-dir=$HOME/.vim/common/pack/bundle/start/${plugin#*/}/.git \
-            --work-tree=$HOME/.vim/common/pack/bundle/start/${plugin#*/}/ pull
+            --work-tree=$HOME/.vim/common/pack/bundle/start/${plugin#*/}/ pull 2>&1)
+        COLOR="$( (( $? != 0)) && echo $RED || echo $GREEN)"
+        printf "$COLOR"$plugin": $NC""$output\n"
     else
+        # Install plugin
+        printf "$BLUE"$plugin": $NC"
         git clone https://github.com/$plugin ~/.vim/common/pack/bundle/start/${plugin#*/}
     fi
 done
-exit 1
-
-# Necessary
-auto-pairs      # Insert matching pairs
-coc.nvim        # LSP
-lightline.vim   # Statusline
-minifuzzy.vim   # Fuzzy-finder
-miniterm.vim    # Terminal manager
-startscreen.vim # Startscreen
-vim-buftabline  # Show bufs in tabline
-vim-commentary  # Comment stuff
-vim-fugitive    # Git integration
