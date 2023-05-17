@@ -182,7 +182,7 @@ let g:start_screen_mru_ignore = [
 " Date stuff
 let g:date_format = "%a %b %d %l:%M%p %Y %Z"
 fun! InsertDate()
-    return systemlist('date --date="' . input("Date: ") . '" +"' . g:date_format . '"')[0]
+    return systemlist($'date --date="{input("Date: ")}" +"{g:date_format}"')[0]
 endfun
 noremap <leader>ad  :exec "normal! a<" . InsertDate() . ">"<CR>
 
@@ -264,28 +264,9 @@ endfun
 
 let g:vimwiki_conceal_pre = 1
 
-fun! InsertStandup()
-    let text = ["== Work ==",
-                \ "=== Done Yesterday ===", "",
-                \ "=== Will Do/Have Done Today ===", "",
-                \ "=== Blockers ===", ""]
-    call append(line('.') - 1, text)
-endfun
-command! InsertStandup :call InsertStandup()
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => minifuzzy.vim
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Builds a Unix find command that ignores directories present in the
-" "ignore_directories" list
-let g:ignore_directories = [ 'node_modules', '.git' ]
-fun! BuildFindCommand()
-    let cmd_exprs = g:ignore_directories
-                    \ ->mapnew('"-type d -name " . v:val . " -prune"')
-    call add(cmd_exprs, '-type f -print')
-    return 'find . ' . cmd_exprs->join(' -o ')
-endfun
-
 nnoremap <space> :MinifuzzyBuffers<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -294,11 +275,6 @@ nnoremap <space> :MinifuzzyBuffers<CR>
 let g:gruvbox_bold = 0
 let g:gruvbox_italic = 0
 let g:gruvbox_contrast_dark = "medium"
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Godot
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:godot_executable =  "C:/Users/19082/Desktop/godot4/Godot_v4.0-stable_win64_console.exe"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => fugitive
@@ -317,4 +293,5 @@ fun! ToggleGitWindow()
     Git
 endfun
 
-nnoremap <silent><leader>gg :call ToggleGitWindow()<cr>
+nnoremap <silent><leader>gg :call ToggleGitWindow()<CR>
+nnoremap <silent><leader>gG :tab Git<CR>

@@ -172,28 +172,18 @@ tnoremap <c-l> <c-\><c-n><c-w>l
 " Escape in terminal mode
 tnoremap <leader><Esc> <c-\><c-n>
 
+" Quickfix list navigation
+map <silent>]Q :clast<CR>
+map <silent>[Q :cfirst<CR>
+map <silent>]q :cnext<CR>
+map <silent>[q :cprev<CR>
+
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-" Delete trailing white space on save, useful for some filetypes ;)
-fun! CleanExtraSpaces()
-    let save_cursor = getpos(".")
-    let old_query = getreg('/')
-    silent! %s/\s\+$//e
-    call setpos('.', save_cursor)
-    call setreg('/', old_query)
-endfun
-
-" autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vimgrep
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-fun! BuffersList()
-    return range(1, bufnr('$'))
-            \ ->filter({_, val -> buflisted(val)})
-            \ ->map({_, val -> bufname(val)})
-endfun
 noremap <leader>vv :vim 
 noremap <leader>vj :vim //j <Left><Left><Left>
 
@@ -225,7 +215,7 @@ nnoremap <leader>bd :Bclose<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Fast editing and reloading of vimrc configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>e :e! ~/.vim/init.vim<CR>
+map <leader>e :args ~/.vim/init.vim ~/.vim/plugins.vim ~/.vim/nvim.lua ~/.vim/vim9.vim<CR>
 map <leader>m :source %<CR>
 autocmd! BufWritePost ~/.vim/init.vim,~/.vim/plugins.vim,~/.vim/nvim.lua,~/.vim/vim9.vim source ~/.vimrc
 
@@ -241,32 +231,12 @@ endtry
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Quickfix stuff
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <silent>]Q :clast<CR>
-map <silent>[Q :cfirst<CR>
-map <silent>]q :cnext<CR>
-map <silent>[q :cprev<CR>
 map <silent><leader>cc :call ToggleQuickFix()<CR>
-map <silent><leader>ll :call ToggleLocList()<CR>
 
 function! ToggleQuickFix()
-    if empty(filter(getwininfo(), 'v:val.quickfix'))
-        botright copen
-    else
-        cclose
-        lclose
-    endif
-endfunction
-function! ToggleLocList()
-    try
-        if empty(filter(getwininfo(), 'v:val.quickfix'))
-            botright lopen
-        else
-            cclose
-            lclose
-        endif
-    catch /E776/
-        return
-    endtry
+    eval empty(filter(getwininfo(), 'v:val.quickfix')) 
+                \ ? execute("botright copen") 
+                \ : execute("cclose")
 endfunction
 
 " Make sure that enter is never overriden in the quickfix window
@@ -310,7 +280,7 @@ function! s:NetrwMapping()
     nmap <buffer> l <CR>
 
     nmap <buffer> . gh
-    nmap <buffer> P <C-w>z
+    " nmap <buffer> P <C-w>z
 
     nmap <buffer> <C-r> :e .<CR>
 
@@ -318,7 +288,6 @@ function! s:NetrwMapping()
 endfunction
 
 function s:ToggleLex()
-    " call s:CleanUselessBuffers()
     " Clean useless buffers
     for buf in getbufinfo()
         if buf.name == "" && buf.changed == 0 && buf.loaded == 1
@@ -348,48 +317,3 @@ endfunction
 nnoremap <silent> <leader>tf :call <SID>ToggleLex()<CR>
 
 hi! link netrwMarkFile Todo
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Misc.
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Fuzzy-finding fallback if no plugins available
-fun! MyFuzFunc(A, L, P)
-    let l:results = split(system("find . -type f -not -path '*/\\.git/*'"), "\n")
-    return matchfuzzy(l:results, a:A)
-endfun
-
-set wcm=<C-Z>
-cnoremap <C-TAB> <C-Z><C-P>
-command! -nargs=1 -complete=customlist,MyFuzFunc Find edit <args>
-nnoremap <C-p> :Find ./<C-Z><C-P>
-" set path+=**
-
-" Toggle a terminal window at the bottom of the screen
-" let g:toggled = #{init: 0, bufnr: 0, winnr: 0, open: 0}
-" function ToggleTerm()
-"     if !g:toggled.init
-"         " Start a terminal buffer and remember its buffer number
-"         if has("nvim")
-"             bot split term://bash
-"         else
-"             bot terminal ++kill=hup
-"         endif
-"         let g:toggled.bufnr = uniq(map(filter(getwininfo(), 'v:val.terminal'), 'v:val.bufnr'))[0]
-"         let g:toggled.init = 1
-"     endif
-"     if g:toggled.open
-"         call win_execute(g:toggled.winnr, 'close')
-"         let g:toggled.open = 0
-"     else
-"         exec "bot sbuffer " . g:toggled.bufnr
-"         exec "resize " . float2nr(&lines * g:terminal_proportion)
-"         setlocal winfixheight
-"         setlocal nonumber norelativenumber
-"         let g:toggled.winnr = win_getid()
-"         let g:toggled.open = 1
-"     endif
-" endfunction
-
-" " Toggle term maps
-" nnoremap <silent> <leader>tt :call ToggleTerm()<CR>
-" tnoremap <silent> <leader>tt <C-\><C-n>:call ToggleTerm()<CR>
