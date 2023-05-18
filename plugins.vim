@@ -7,7 +7,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " General
-let g:colorscheme = "gruvbox"
+let g:colorscheme = "nord"
 try
     exec "colorscheme " . g:colorscheme
 catch /^Vim\%((\a\+)\)\=:E185/
@@ -20,11 +20,6 @@ endtry
 """"""""""""""""""""""""""""""
 let g:buftabline_indicators = 1 " Show 'modified' in buftab
 hi! link BufTabLineActive BufTabLineHidden
-
-""""""""""""""""""""""""""""""
-" => Shell section
-""""""""""""""""""""""""""""""
-au FileType gitcommit call setpos('.', [0, 1, 1, 0])
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => miniterm.vim
@@ -279,8 +274,20 @@ let g:gruvbox_contrast_dark = "medium"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => fugitive
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-command! GitLg1 :Git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-command! GitLg2 :Git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+au FileType gitcommit call setpos('.', [0, 1, 1, 0])
+
+command! GitLg1 :Git log 
+            \ --graph 
+            \ --abbrev-commit 
+            \ --decorate 
+            \ --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' 
+            \ --all
+command! GitLg2 :Git log 
+            \ --graph 
+            \ --abbrev-commit 
+            \ --decorate 
+            \ --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' 
+            \ --all
 
 " Toggle :Git window
 fun! ToggleGitWindow()
