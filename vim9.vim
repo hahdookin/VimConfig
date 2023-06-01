@@ -1,68 +1,59 @@
 vim9script
 
-def CheckBlame(): list<string>
-    const lnum = getpos('.')[1]
-    const filename = system("git ls-files --full-name " .. expand("%:t"))
-    const cmd = printf("git log -L %d,%d:%s", lnum, lnum, filename)
-    const lines = systemlist(cmd)
-    var winid = popup_atcursor(lines, {border: []})
-	setbufvar(winbufnr(winid), '&filetype', 'git')
-    return lines
-enddef
-
-nnoremap <leader>gb <ScriptCmd>CheckBlame()<CR>
-
-# Toggle preview window
-def PreviewWindow(): dict<any>
-    final self: dict<any> = { 
-        winid: 0
-    }
-
-    self.Open = () => {
-        :10split
-        self.winid = win_getid()
-        setwinvar(winnr(), "&winfixheight", 1)
-    }
-    self.Close = () => {
-        win_execute(self.winid, "close")
-        self.winid = 0
-    }
-    self.Toggle = () => {
-        if self.winid == 0
-            self.Open()
-        else
-            self.Close()
+def GetDirectories(path: string, count: number): any
+    final dirs = []
+    for i in range(1, count)
+        const dir = fnamemodify(path, $":p{repeat(':h', i)}:t")
+        dirs->add(dir)
+        if dir == ''
+            return dirs
         endif
-    }
-
-    return self
+    endfor
+    return dirs->reverse()
 enddef
-var preview_window = PreviewWindow()
-nnoremap <leader>cp <ScriptCmd>preview_window.Toggle()<CR>
 
-# Use popup window for quickfix
-def CycleQf(n: number, relative: number = 0)
-    var cur_index = getqflist({idx: 0})['idx']
-    cur_index = relative ? cur_index + n : n
-    setqflist([], 'a', {idx: cur_index})
-
-    var qflist = getqflist()
-    popup_clear()
-    if qflist->len() == 0 || qflist->len() <= cur_index
-        return
+def GetDirectoriesWithFilename(path: string, count: number): string
+    if count == 0
+        return fnamemodify(path, ':t')
     endif
-    var cur_entry = getqflist()[cur_index - 1]
-    var popup_options = { 
-        maxheight: 10, 
-        firstline: cur_entry.lnum, 
-        border: [], 
-        title: bufname(cur_entry.bufnr)
-    }
-    var winid = popup_atcursor(cur_entry.bufnr, popup_options)
-    var bufnr = winbufnr(winid)
-    setwinvar(winid, '&number', 1)
+    return GetDirectories(path, count)->join('/') .. '/' .. fnamemodify(path, ':t')
 enddef
-noremap <leader>hh <ScriptCmd>CycleQf(-1, 1)<CR>
-noremap <leader>ll <ScriptCmd>CycleQf(1, 1)<CR>
-autocmd BufReadPost quickfix nnoremap <buffer> <S-CR> :call CycleQf(line('.'))<CR>
 
+def g:GetShortFilePath(filename: string, filenames: list<string>): any
+    var working_filename = filename
+    # Check if this path is in the list, just written different
+    for fname in filenames
+        if fnamemodify(fname, ":p") == fnamemodify(filename, ":p")
+            working_filename = fname
+        endif
+    endfor
+    final counts = {}
+    for fname in filenames
+        if fname != working_filename
+            counts[fname] = 0
+        endif
+    endfor
+    var keep_going = true
+
+    var iters = 0
+    while keep_going
+        keep_going = false
+        for fname in filenames
+            if fname == working_filename || !counts->has_key(fname) | continue | endif
+            var a = GetDirectoriesWithFilename(fname, iters)
+            var b = GetDirectoriesWithFilename(working_filename, iters)
+            if a == b
+                iters += 1
+                keep_going = true
+            else
+                counts->remove(fname)
+            endif
+        endfor
+    endwhile
+
+    return GetDirectoriesWithFilename(filename, iters)
+enddef
+
+g:lightline.component.filename = '%{g:GetShortFilePath(bufname(),getcompletion("", "buffer"))}'
+g:lightline#init()
+g:lightline#update()

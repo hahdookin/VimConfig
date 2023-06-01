@@ -317,3 +317,8 @@ endfunction
 nnoremap <silent> <leader>tf :call <SID>ToggleLex()<CR>
 
 hi! link netrwMarkFile Todo
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => matchit
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+packadd! matchit
